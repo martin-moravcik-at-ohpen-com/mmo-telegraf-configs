@@ -2,61 +2,52 @@ name: CI + CD
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  Build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Compile
-        run: echo Hello, world!
+  # Build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  # 
+  #     - name: Compile
+  #       run: echo Hello, world!
     
   DeployDev:
     name: Deploy to Dev 
     if: github.event.ref != 'refs/heads/main'
-    needs: [Build]
     runs-on: ubuntu-latest
-    environment: 
-      name: dev
+    environment: dev
     steps:
       - name: Deploy
-        run: echo "I am deploying to ${{ env.environment }}!"
+        run: echo "I am deploying to ${{ environment }}!"
     
   DeployTest:
-    name: Deploy to Staging 
+    name: Deploy to Test 
     if: github.event.ref == 'refs/heads/main'
-    needs: [DeployDev]
     runs-on: ubuntu-latest
-    environment: 
-      name: acc
+    environment: test
     steps:
       - name: Deploy
-        run: echo "I am deploying to ${{ env.environment }}!"
+        run: echo "I am deploying to ${{ environment }}!"
 
   DeployAcc:
-    name: Deploy to Staging 
+    name: Deploy to Acc 
     if: github.event.ref == 'refs/heads/main'
     needs: [DeployTest]
     runs-on: ubuntu-latest
-    environment: 
-      name: acc
+    environment: acc
     steps:
       - name: Deploy
-        run: echo "I am deploying to ${{ env.environment }}!"
+        run: echo "I am deploying to ${{ environment }}!"
             
   DeployProd:
-    name: Deploy to Production 
+    name: Deploy to Prod
     if: github.event.ref == 'refs/heads/main'
     needs: [DeployAcc]
     runs-on: ubuntu-latest
-    environment: 
-      name: prod
+    environment: prod
     steps:
       - name: Deploy
-        run: echo "I am deploying to ${{ env.environment }}!"
+        run: echo "I am deploying to ${{ environment }}!"
     
