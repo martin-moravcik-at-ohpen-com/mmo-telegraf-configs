@@ -23,7 +23,7 @@ jobs:
       - name: Deploy
         run: |
           echo "I am deploying to dev!"
-          echo "I am deploying to ${{ github.event.client_payload.environment }}""
+          echo "I am deploying to ${{ github.event.client_payload.environment }}"
     
   DeployTest:
     name: Deploy to Test 
@@ -35,7 +35,7 @@ jobs:
       - name: Deploy
         run: |
           echo "I am deploying to test"
-          echo "I am deploying to ${{ github.event.client_payload.environment }}""
+          echo "I am deploying to ${{ github.event.client_payload.environment }}"
 
   DeployAcc:
     name: Deploy to Acc 
@@ -47,7 +47,7 @@ jobs:
       - name: Deploy
         run: |
           echo "I am deploying to acc"
-          echo "I am deploying to ${{ github.event.client_payload.environment }}""
+          echo "I am deploying to ${{ github.event.client_payload.environment }}"
             
   DeployProd:
     name: Deploy to Prod
@@ -59,5 +59,5 @@ jobs:
       - name: Deploy
         run: |
           echo "I am deploying to prod"
-          echo "I am deploying to ${{ github.event.client_payload.environment }}""
+          echo "I am deploying to ${{ github.event.client_payload.environment }}"
     
