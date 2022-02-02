@@ -5,13 +5,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  # Build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  # 
-  #     - name: Compile
-  #       run: echo Hello, world!
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+  
+      - name: Compile
+        run: echo Hello, world!
     
   DeployDev:
     name: Deploy to Dev 
@@ -20,7 +20,7 @@ jobs:
     environment: dev
     steps:
       - name: Deploy
-        run: echo "I am deploying to ${{ environment }}!"
+        run: echo "I am deploying to ${{ jobs.DeployDev.environment }}!"
     
   DeployTest:
     name: Deploy to Test 
@@ -29,7 +29,7 @@ jobs:
     environment: test
     steps:
       - name: Deploy
-        run: echo "I am deploying to ${{ environment }}!"
+        run: echo "I am deploying to ${{ jobs.DeployTest.environment }}!"
 
   DeployAcc:
     name: Deploy to Acc 
@@ -39,7 +39,7 @@ jobs:
     environment: acc
     steps:
       - name: Deploy
-        run: echo "I am deploying to ${{ environment }}!"
+        run: echo "I am deploying to ${{ jobs.DeployAcc.environment }}!"
             
   DeployProd:
     name: Deploy to Prod
@@ -49,5 +49,5 @@ jobs:
     environment: prod
     steps:
       - name: Deploy
-        run: echo "I am deploying to ${{ environment }}!"
+        run: echo "I am deploying to ${{ jobs.DeployProd.environment }}!"
     
