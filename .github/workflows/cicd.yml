@@ -16,20 +16,26 @@ jobs:
   DeployDev:
     name: Deploy to Dev 
     if: github.event.ref != 'refs/heads/main'
+    needs: [Build]
     runs-on: ubuntu-latest
     environment: dev
     steps:
       - name: Deploy
-        run: echo "I am deploying to ${{ jobs.DeployDev.environment }}!"
+        run: |
+          echo "I am deploying to dev!"
+          echo "I am deploying to ${{ github.event.client_payload.environment }}""
     
   DeployTest:
     name: Deploy to Test 
     if: github.event.ref == 'refs/heads/main'
+    needs: [Build]
     runs-on: ubuntu-latest
     environment: test
     steps:
       - name: Deploy
-        run: echo "I am deploying to ${{ jobs.DeployTest.environment }}!"
+        run: |
+          echo "I am deploying to test"
+          echo "I am deploying to ${{ github.event.client_payload.environment }}""
 
   DeployAcc:
     name: Deploy to Acc 
@@ -39,7 +45,9 @@ jobs:
     environment: acc
     steps:
       - name: Deploy
-        run: echo "I am deploying to ${{ jobs.DeployAcc.environment }}!"
+        run: |
+          echo "I am deploying to acc"
+          echo "I am deploying to ${{ github.event.client_payload.environment }}""
             
   DeployProd:
     name: Deploy to Prod
@@ -49,5 +57,7 @@ jobs:
     environment: prod
     steps:
       - name: Deploy
-        run: echo "I am deploying to ${{ jobs.DeployProd.environment }}!"
+        run: |
+          echo "I am deploying to prod"
+          echo "I am deploying to ${{ github.event.client_payload.environment }}""
     
