@@ -3,6 +3,16 @@ name: CI + CD
 on:
   push:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Name of the environment which will be handled'
+        required: true
+        default: 'test'
+        type: choice
+        options:
+          - test
+          - acc
+          - prod
 
 jobs:
   Build:
@@ -15,7 +25,7 @@ jobs:
     
   DeployDev:
     name: Deploy to Dev 
-    if: github.event.ref != 'refs/heads/main'
+    if: ${{ ( github.event.ref != 'refs/heads/main' ) || ( ( github.event_name  == "workflow_dispatch" ) && ( github.event.inputs.environment  == "dev" ))}}
     needs: [Build]
     runs-on: ubuntu-latest
     environment: dev
@@ -28,7 +38,7 @@ jobs:
     
   DeployTest:
     name: Deploy to Test 
-    if: github.event.ref == 'refs/heads/main'
+    if: ${{ ( github.event.ref == 'refs/heads/main' ) || ( ( github.event_name  == 'workflow_dispatch' ) && ( github.event.inputs.environment  == 'test' ) ) }}
     needs: [Build]
     runs-on: ubuntu-latest
     environment: test
@@ -41,7 +51,7 @@ jobs:
 
   DeployAcc:
     name: Deploy to Acc 
-    if: github.event.ref == 'refs/heads/main'
+    if: ${{ ( github.event.ref == 'refs/heads/main' ) || ( ( github.event_name  == 'workflow_dispatch' ) && ( github.event.inputs.environment  == 'acc' ) ) }}
     needs: [DeployTest]
     runs-on: ubuntu-latest
     environment: acc
@@ -54,7 +64,7 @@ jobs:
             
   DeployProd:
     name: Deploy to Prod
-    if: github.event.ref == 'refs/heads/main'
+    if: ${{ ( github.event.ref == 'refs/heads/main' ) || ( ( github.event_name  == 'workflow_dispatch' ) && ( github.event.inputs.environment  == 'prod' ) ) }}
     needs: [DeployAcc]
     runs-on: ubuntu-latest
     environment: prod
