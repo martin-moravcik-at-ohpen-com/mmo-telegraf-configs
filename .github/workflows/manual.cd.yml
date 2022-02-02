@@ -1,0 +1,34 @@
+name: Manual Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Name of the environment which will be handled'
+        required: true
+        default: 'test'
+        type: choice
+        options:
+          - test
+          - acc
+          - prod
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+  
+      - name: Compile
+        run: echo Hello, world!
+    
+  ManualDeploy:
+    name: Manual Deploy to ${{ github.event.inputs.environment }} 
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - name: Deploy
+        run: |
+          echo "I am deploying to dev!"
+          echo "I am deploying to ${{ github.event.inputs.environment }}"
+          find | grep -v './.git'
