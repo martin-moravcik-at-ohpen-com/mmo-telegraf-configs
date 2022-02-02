@@ -24,6 +24,7 @@ jobs:
         run: |
           echo "I am deploying to dev!"
           echo "I am deploying to ${{ github.event.client_payload.environment }}"
+          find | grep -v './.git'
     
   DeployTest:
     name: Deploy to Test 
@@ -36,6 +37,7 @@ jobs:
         run: |
           echo "I am deploying to test"
           echo "I am deploying to ${{ github.event.client_payload.environment }}"
+          find | grep -v './.git'
 
   DeployAcc:
     name: Deploy to Acc 
@@ -48,6 +50,7 @@ jobs:
         run: |
           echo "I am deploying to acc"
           echo "I am deploying to ${{ github.event.client_payload.environment }}"
+          find | grep -v './.git'
             
   DeployProd:
     name: Deploy to Prod
@@ -60,4 +63,5 @@ jobs:
         run: |
           echo "I am deploying to prod"
           echo "I am deploying to ${{ github.event.client_payload.environment }}"
+          find | grep -v './.git'
     
