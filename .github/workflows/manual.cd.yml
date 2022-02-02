@@ -24,6 +24,7 @@ jobs:
     
   ManualDeploy:
     name: Manual Deploy to ${{ github.event.inputs.environment }} 
+    needs: [Build]
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
     steps:
